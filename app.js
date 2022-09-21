@@ -18,7 +18,7 @@ app.post("/register", async (req, res) => {
 
     // Validate user input
     if (!(email && password && first_name && last_name)) {
-      res.status(400).send("All input is required");
+      return  res.status(400).send("All input is required");
     }
 
     // check if user already exist
@@ -65,7 +65,7 @@ app.post("/login", async (req, res) => {
 
     // Validate user input
     if (!(email && password)) {
-      res.status(400).send("All input is required");
+      return  res.status(400).send("All input is required");
     }
     // Validate if user exist in our database
     const user = await User.findOne({ email });
@@ -84,21 +84,21 @@ app.post("/login", async (req, res) => {
       user.token = token;
 
       // user
-      res.status(200).json(user);
+     return res.status(200).json(user);
     }
-    res.status(400).send("Invalid Credentials");
+    return  res.status(400).send("Invalid Credentials");
   } catch (err) {
-    console.log(err);
+    console.log(`error is  ${err}`);
   }
 });
 
 app.get("/welcome", auth, (req, res) => {
-  res.status(200).send("Welcome 🙌 ");
+  return  res.status(200).send("Welcome 🙌 ");
 });
 
 // This should be the last route else any after it won't work
 app.use("*", (req, res) => {
-  res.status(404).json({
+  return res.status(404).json({
     success: "false",
     message: "Page not found",
     error: {
